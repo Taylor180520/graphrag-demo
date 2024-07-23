@@ -134,9 +134,9 @@ umap:
   enabled: false # if true, will generate UMAP embeddings for nodes
 
 snapshots:
-  graphml: false
-  raw_entities: false
-  top_level_nodes: false
+  graphml: true
+  raw_entities: true
+  top_level_nodes: true
 
 local_search:
   # text_unit_prop: {defs.LOCAL_SEARCH_TEXT_UNIT_PROP}
