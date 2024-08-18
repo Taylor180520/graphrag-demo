@@ -27,8 +27,7 @@ stages:
           - task: CredScan@3
             inputs:
               outputFormat: sarif
-              debugMode: false
-
+              debugMode: true
           - task: ComponentGovernanceComponentDetection@0
             inputs:
               scanType: "Register"

@@ -37,7 +37,7 @@ class ExtractEntityStrategyType(str, Enum):
         return f'"{self.value}"'
 
 
-DEFAULT_ENTITY_TYPES = ["organization", "person", "geo", "event"]
+DEFAULT_ENTITY_TYPES = ["concepts", "formulas", "methodologies", "quizzes", "features", "examples", "cases"]
 
 
 @verb(name="entity_extract")
@@ -68,7 +68,7 @@ async def entity_extract(
             "to": "the_column_to_output_the_entities_to", /* This will be a list[dict[str, Any]] a list of entities, with a name, and additional attributes */
             "graph_to": "the_column_to_output_the_graphml_to", /* Optional: This will be a graphml graph in string form which represents the entities and their relationships */
             "strategy": {...} <strategy_config>, see strategies section below
-            "entity_types": ["list", "of", "entity", "types", "to", "extract"] /* Optional: This will limit the entity types extracted, default: ["organization", "person", "geo", "event"] */
+            "entity_types": ["list", "of", "entity", "types", "to", "extract"] /* Optional: This will limit the entity types extracted, default: ["concepts", "methodologies", "formulas", "quizzes", "features", "examples", "cases"] */
             "summarize_descriptions" : true | false /* Optional: This will summarize the descriptions of the entities and relationships, default: true */
         }
     }

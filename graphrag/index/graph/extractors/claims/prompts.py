@@ -5,22 +5,21 @@
 
 CLAIM_EXTRACTION_PROMPT = """
 -Target activity-
-You are an intelligent assistant that helps a human analyst to analyze claims against certain entities presented in a text document.
+You are an intelligent assistant that helps a human analyst to analyze educational content in a textbook.
 
 -Goal-
 Given a text document that is potentially relevant to this activity, an entity specification, and a claim description, extract all entities that match the entity specification and all claims against those entities.
 
 -Steps-
 1. Extract all named entities that match the predefined entity specification. Entity specification can either be a list of entity names or a list of entity types.
-2. For each entity identified in step 1, extract all claims associated with the entity. Claims need to match the specified claim description, and the entity should be the subject of the claim.
-For each claim, extract the following information:
-- Subject: name of the entity that is subject of the claim, capitalized. The subject entity is one that committed the action described in the claim. Subject needs to be one of the named entities identified in step 1.
-- Object: name of the entity that is object of the claim, capitalized. The object entity is one that either reports/handles or is affected by the action described in the claim. If object entity is unknown, use **NONE**.
-- Claim Type: overall category of the claim, capitalized. Name it in a way that can be repeated across multiple text inputs, so that similar claims share the same claim type
-- Claim Status: **TRUE**, **FALSE**, or **SUSPECTED**. TRUE means the claim is confirmed, FALSE means the claim is found to be False, SUSPECTED means the claim is not verified.
-- Claim Description: Detailed description explaining the reasoning behind the claim, together with all the related evidence and references.
-- Claim Date: Period (start_date, end_date) when the claim was made. Both start_date and end_date should be in ISO-8601 format. If the claim was made on a single date rather than a date range, set the same date for both start_date and end_date. If date is unknown, return **NONE**.
-- Claim Source Text: List of **all** quotes from the original text that are relevant to the claim.
+2. For each identified claim, extract the following information:
+- Subject: name of the entity that is the subject of the claim, capitalized. The subject entity is one that is associated with the claim. Subject needs to be one of the predefined entities.
+- Object: name of the entity that is the object of the claim, capitalized. The object entity is one that is either related to or affected by the subject entity. If the object entity is unknown, use **NONE**.
+- Claim Type: overall category of the claim, capitalized. Name it in a way that can be repeated across multiple text inputs, so that similar claims share the same claim type.
+- Claim Status: **TRUE**, **FALSE**, or **SUSPECTED**. TRUE means the claim is confirmed, FALSE means the claim is found to be false, SUSPECTED means the claim is not verified.
+- Claim Description: detailed description explaining the reasoning behind the claim, together with all the related evidence and references.
+- Claim Date: period (start_date, end_date) when the claim was made. Both start_date and end_date should be in ISO-8601 format. If the claim was made on a single date rather than a date range, set the same date for both start_date and end_date. If date is unknown, return **NONE**.
+- Claim Source Text: list of **all** quotes from the original text that are relevant to the claim.
 
 Format each claim as (<subject_entity>{tuple_delimiter}<object_entity>{tuple_delimiter}<claim_type>{tuple_delimiter}<claim_status>{tuple_delimiter}<claim_start_date>{tuple_delimiter}<claim_end_date>{tuple_delimiter}<claim_description>{tuple_delimiter}<claim_source>)
 
@@ -30,24 +29,35 @@ Format each claim as (<subject_entity>{tuple_delimiter}<object_entity>{tuple_del
 
 -Examples-
 Example 1:
-Entity specification: organization
-Claim description: red flags associated with an entity
-Text: According to an article on 2022/01/10, Company A was fined for bid rigging while participating in multiple public tenders published by Government Agency B. The company is owned by Person C who was suspected of engaging in corruption activities in 2015.
+Entity specification: concepts, formulas, methodologies, quizzes, cases
+Claim description: explanations and applications of entities
+Text: According to the textbook, the formula for calculating the net present value (NPV) is a key concept in financial decision-making. This methodology is applied in various real-world scenarios to determine the profitability of investments.
 Output:
 
-(COMPANY A{tuple_delimiter}GOVERNMENT AGENCY B{tuple_delimiter}ANTI-COMPETITIVE PRACTICES{tuple_delimiter}TRUE{tuple_delimiter}2022-01-10T00:00:00{tuple_delimiter}2022-01-10T00:00:00{tuple_delimiter}Company A was found to engage in anti-competitive practices because it was fined for bid rigging in multiple public tenders published by Government Agency B according to an article published on 2022/01/10{tuple_delimiter}According to an article published on 2022/01/10, Company A was fined for bid rigging while participating in multiple public tenders published by Government Agency B.)
+(FORMULAS{tuple_delimiter}NONE{tuple_delimiter}EXPLANATION{tuple_delimiter}TRUE{tuple_delimiter}NONE{tuple_delimiter}NONE{tuple_delimiter}The formula for calculating the net present value (NPV) is explained as a key concept in financial decision-making{tuple_delimiter}According to the textbook, the formula for calculating the net present value (NPV) is a key concept in financial decision-making.)
+{record_delimiter}
+(METHODOLOGIES{tuple_delimiter}NONE{tuple_delimiter}APPLICATION{tuple_delimiter}TRUE{tuple_delimiter}NONE{tuple_delimiter}NONE{tuple_delimiter}The NPV methodology is applied in various real-world scenarios to determine the profitability of investments{tuple_delimiter}This methodology is applied in various real-world scenarios to determine the profitability of investments.)
 {completion_delimiter}
 
 Example 2:
-Entity specification: Company A, Person C
-Claim description: red flags associated with an entity
-Text: According to an article on 2022/01/10, Company A was fined for bid rigging while participating in multiple public tenders published by Government Agency B. The company is owned by Person C who was suspected of engaging in corruption activities in 2015.
+Entity specification: concepts, formulas, methodologies, quizzes, cases
+Claim description: definitions and practical usage of entities
+Text: The concept of opportunity cost is fundamental in economics. It is defined as the value of the best alternative that is foregone when a choice is made. This concept is crucial for understanding trade-offs in decision-making processes.
 Output:
 
-(COMPANY A{tuple_delimiter}GOVERNMENT AGENCY B{tuple_delimiter}ANTI-COMPETITIVE PRACTICES{tuple_delimiter}TRUE{tuple_delimiter}2022-01-10T00:00:00{tuple_delimiter}2022-01-10T00:00:00{tuple_delimiter}Company A was found to engage in anti-competitive practices because it was fined for bid rigging in multiple public tenders published by Government Agency B according to an article published on 2022/01/10{tuple_delimiter}According to an article published on 2022/01/10, Company A was fined for bid rigging while participating in multiple public tenders published by Government Agency B.)
+(CONCEPTS{tuple_delimiter}NONE{tuple_delimiter}DEFINITION{tuple_delimiter}TRUE{tuple_delimiter}NONE{tuple_delimiter}NONE{tuple_delimiter}The concept of opportunity cost is defined as the value of the best alternative that is foregone when a choice is made{tuple_delimiter}It is defined as the value of the best alternative that is foregone when a choice is made.)
 {record_delimiter}
-(PERSON C{tuple_delimiter}NONE{tuple_delimiter}CORRUPTION{tuple_delimiter}SUSPECTED{tuple_delimiter}2015-01-01T00:00:00{tuple_delimiter}2015-12-30T00:00:00{tuple_delimiter}Person C was suspected of engaging in corruption activities in 2015{tuple_delimiter}The company is owned by Person C who was suspected of engaging in corruption activities in 2015)
+(CONCEPTS{tuple_delimiter}NONE{tuple_delimiter}PRACTICAL USAGE{tuple_delimiter}TRUE{tuple_delimiter}NONE{tuple_delimiter}NONE{tuple_delimiter}The concept of opportunity cost is crucial for understanding trade-offs in decision-making processes{tuple_delimiter}This concept is crucial for understanding trade-offs in decision-making processes.)
 {completion_delimiter}
+
+Example 3:
+Entity specification: concepts, formulas, methodologies, quizzes, cases
+Claim description: practical usage of entities
+Text: Case: Importance and Implementation of Environmental Management Accounting at Little Chemical Co. The Little Chemical Co (LCC) manufactures a small range of speciality chemicals for use in the agriculture industry. Recently the company received a large fine because some of the chemical discharges produce emissions of sulphur dioxide into the atmosphere in excess of permitted standards.
+Output:
+
+(CASES{tuple_delimiter}NONE{tuple_delimiter}PRACTICE{tuple_delimiter}TRUE{tuple_delimiter}NONE{tuple_delimiter}NONE{tuple_delimiter}The concept of opportunity cost is defined as the value of the best alternative that is foregone when a choice is made{tuple_delimiter}It is defined as the value of the best alternative that is foregone when a choice is made.)
+{record_delimiter}
 
 -Real Data-
 Use the following input for your answer.

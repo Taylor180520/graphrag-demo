@@ -23,7 +23,7 @@ async def generate_entity_types(
     Generate entity type categories from a given set of (small) documents.
 
     Example Output:
-    "entity_types": ['military unit', 'organization', 'person', 'location', 'event', 'date', 'equipment']
+    "entity_types": ["concepts", "formulas", "methodologies", "quizzes", "features", "examples", "cases"]
     """
     formatted_task = task.format(domain=domain)
 

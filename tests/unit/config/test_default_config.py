@@ -111,7 +111,7 @@ ALL_ENV_VARS = {
     "GRAPHRAG_EMBEDDING_TYPE": "azure_openai_embedding",
     "GRAPHRAG_ENCODING_MODEL": "test123",
     "GRAPHRAG_INPUT_STORAGE_ACCOUNT_BLOB_URL": "input_account_blob_url",
-    "GRAPHRAG_ENTITY_EXTRACTION_ENTITY_TYPES": "cat,dog,elephant",
+    "GRAPHRAG_ENTITY_EXTRACTION_ENTITY_TYPES": "concepts, methodologies, formulas, quizzes, features, examples", 
     "GRAPHRAG_ENTITY_EXTRACTION_MAX_GLEANINGS": "112",
     "GRAPHRAG_ENTITY_EXTRACTION_PROMPT_FILE": "tests/unit/config/prompt-c.txt",
     "GRAPHRAG_INPUT_BASE_DIR": "/some/input/dir",
@@ -167,7 +167,7 @@ ALL_ENV_VARS = {
     "GRAPHRAG_SUMMARIZE_DESCRIPTIONS_PROMPT_FILE": "tests/unit/config/prompt-d.txt",
     "GRAPHRAG_LLM_TEMPERATURE": "0.0",
     "GRAPHRAG_LLM_TOP_P": "1.0",
-    "GRAPHRAG_UMAP_ENABLED": "true",
+    "GRAPHRAG_UMAP_ENABLED": "false",
     "GRAPHRAG_LOCAL_SEARCH_TEXT_UNIT_PROP": "0.713",
     "GRAPHRAG_LOCAL_SEARCH_COMMUNITY_PROP": "0.1234",
     "GRAPHRAG_LOCAL_SEARCH_LLM_TEMPERATURE": "0.1",
@@ -543,7 +543,7 @@ class TestDefaultConfig(unittest.TestCase):
         assert parameters.embeddings.skip == ["a1", "b1", "c1"]
         assert parameters.embeddings.target == "all"
         assert parameters.encoding_model == "test123"
-        assert parameters.entity_extraction.entity_types == ["cat", "dog", "elephant"]
+        assert parameters.entity_extraction.entity_types == ["concepts", "formulas", "methodologies", "quizzes", "features", "examples"]
         assert parameters.entity_extraction.llm.api_base == "http://some/base"
         assert parameters.entity_extraction.max_gleanings == 112
         assert parameters.entity_extraction.prompt == "tests/unit/config/prompt-c.txt"
@@ -690,7 +690,7 @@ class TestDefaultConfig(unittest.TestCase):
                 ),
                 entity_extraction=EntityExtractionConfigInput(
                     max_gleanings=112,
-                    entity_types=["cat", "dog", "elephant"],
+                    entity_types=["concepts", "formulas", "methodologies", "quizzes", "features", "examples"],
                     prompt="entity_extraction_prompt_file.txt",
                 ),
                 summarize_descriptions=SummarizeDescriptionsConfigInput(
@@ -741,7 +741,7 @@ class TestDefaultConfig(unittest.TestCase):
         assert parameters.embeddings.llm.model == "text-embedding-2"
         assert parameters.embeddings.skip == ["a1", "b1", "c1"]
         assert parameters.encoding_model == "test123"
-        assert parameters.entity_extraction.entity_types == ["cat", "dog", "elephant"]
+        assert parameters.entity_extraction.entity_types == ["concepts", "formulas", "methodologies", "quizzes", "features", "examples"]
         assert parameters.entity_extraction.max_gleanings == 112
         assert (
             parameters.entity_extraction.prompt == "entity_extraction_prompt_file.txt"

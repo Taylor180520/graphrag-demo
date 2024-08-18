@@ -17,24 +17,24 @@ Return the entity types in as a list of comma sepparated of strings.
 EXAMPLE SECTION: The following section includes example output. These examples **must be excluded from your answer**.
 
 EXAMPLE 1
-Task: Determine the connections and organizational hierarchy within the specified community.
-Text: Example_Org_A is a company in Sweden. Example_Org_A's director is Example_Individual_B.
+Task: Understand and interpret the methodology and learn its formula.
+Text: Sensitivity analysis calculates how responsive a decision is to changes in any of the variables used in making that decision. It looks at one variable at a time and measures how much the variable can change by (in percentage terms) before affecting the decision. The smaller the percentage, the more sensitive the decision is to that variable. Sensitivity % = Profit + Variable. 
 RESPONSE:
-organization, person
+methodologies, formulas
 END OF EXAMPLE 1
 
 EXAMPLE 2
-Task: Identify the key concepts, principles, and arguments shared among different philosophical schools of thought, and trace the historical or ideological influences they have on each other.
-Text: Rationalism, epitomized by thinkers such as René Descartes, holds that reason is the primary source of knowledge. Key concepts within this school include the emphasis on the deductive method of reasoning.
+Task: Identify the quiz's question and its corresponding answer, the key concepts, formulas, methodologies, and examples shared in the educational content.
+Text: Quiz: Calculate the net present value (NPV) using the provided formula. Example: The formula for NPV considers the time value of money.
 RESPONSE:
-concept, person, school of thought
+quizzes, formulas, examples
 END OF EXAMPLE 2
 
 EXAMPLE 3
-Task: Identify the full range of basic forces, factors, and trends that would indirectly shape an issue.
-Text: Industry leaders such as Panasonic are vying for supremacy in the battery production sector. They are investing heavily in research and development and are exploring new technologies to gain a competitive edge.
+Task: Identify the key concepts, methodologies, features, examples and quizzes related to the chapter.
+Text: Chapter 8 discusses about decision-making under risk and uncertainty, including the concept of expected value and the methodology of sensitivity analysis, and their advantages and limitations.
 RESPONSE:
-organization, technology, sectors, investment strategies
+concepts, methodologies, features
 END OF EXAMPLE 3
 ======================================================================
 
@@ -59,24 +59,24 @@ Return the entity types in JSON format with "entities" as the key and the entity
 EXAMPLE SECTION: The following section includes example output. These examples **must be excluded from your answer**.
 
 EXAMPLE 1
-Task: Determine the connections and organizational hierarchy within the specified community.
-Text: Example_Org_A is a company in Sweden. Example_Org_A's director is Example_Individual_B.
+Task: Understand and interpret the methodology and learn its formula.
+Text: Sensitivity analysis calculates how responsive a decision is to changes in any of the variables used in making that decision. It looks at one variable at a time and measures how much the variable can change by (in percentage terms) before affecting the decision. The smaller the percentage, the more sensitive the decision is to that variable. Sensitivity % = Profit + Variable. 
 JSON RESPONSE:
-{{"entity_types": [organization, person] }}
+{{"entity_types": [methodologies, formulas] }}
 END OF EXAMPLE 1
 
 EXAMPLE 2
-Task: Identify the key concepts, principles, and arguments shared among different philosophical schools of thought, and trace the historical or ideological influences they have on each other.
-Text: Rationalism, epitomized by thinkers such as René Descartes, holds that reason is the primary source of knowledge. Key concepts within this school include the emphasis on the deductive method of reasoning.
+Task: Identify the quiz's question and its corresponding answer, the key concepts, formulas, methodologies, and examples shared in the educational content.
+Text: Quiz: Calculate the net present value (NPV) using the provided formula. Example: The formula for NPV considers the time value of money.
 JSON RESPONSE:
-{{"entity_types": [concept, person, school of thought] }}
+{{"entity_types": [quizzes, formulas, examples] }}
 END OF EXAMPLE 2
 
 EXAMPLE 3
-Task: Identify the full range of basic forces, factors, and trends that would indirectly shape an issue.
-Text: Industry leaders such as Panasonic are vying for supremacy in the battery production sector. They are investing heavily in research and development and are exploring new technologies to gain a competitive edge.
+Task: Identify the key concepts, methodologies, features, examples and quizzes related to the chapter.
+Text: Chapter 8 discusses about decision-making under risk and uncertainty, including the concept of expected value and the methodology of sensitivity analysis, and their advantages and limitations.
 JSON RESPONSE:
-{{"entity_types": [organization, technology, sectors, investment strategies] }}
+{{"entity_types": [concepts, methodologies, features] }}
 END OF EXAMPLE 3
 ======================================================================
 

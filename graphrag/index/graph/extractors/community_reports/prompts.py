@@ -3,20 +3,20 @@
 """A file containing prompts definition."""
 
 COMMUNITY_REPORT_PROMPT = """
-You are an AI assistant that helps a human analyst to perform general information discovery. Information discovery is the process of identifying and assessing relevant information associated with certain entities (e.g., organizations and individuals) within a network.
+You are an AI assistant that helps a human analyst to perform general information discovery within a textbook. Information discovery is the process of identifying and assessing relevant information associated with certain entities (e.g., concepts, methodologies, quizzes, examples, cases) within a chapter of a textbook.
 
 # Goal
-Write a comprehensive report of a community, given a list of entities that belong to the community as well as their relationships and optional associated claims. The report will be used to inform decision-makers about information associated with the community and their potential impact. The content of this report includes an overview of the community's key entities, their legal compliance, technical capabilities, reputation, and noteworthy claims.
+Write a comprehensive report of a chapter, given a list of concepts, methodologies, formulas and examples that belong to the chapter as well as their relationships and optional associated claims. The report will be used to inform educators and students about the chapter's content and its key components. The content of this report includes an overview of the chapter's key entities, their definitions, interrelations, and noteworthy details.
 
 # Report Structure
 
 The report should include the following sections:
 
-- TITLE: community's name that represents its key entities - title should be short but specific. When possible, include representative named entities in the title.
-- SUMMARY: An executive summary of the community's overall structure, how its entities are related to each other, and significant information associated with its entities.
-- IMPACT SEVERITY RATING: a float score between 0-10 that represents the severity of IMPACT posed by entities within the community.  IMPACT is the scored importance of a community.
-- RATING EXPLANATION: Give a single sentence explanation of the IMPACT severity rating.
-- DETAILED FINDINGS: A list of 5-10 key insights about the community. Each insight should have a short summary followed by multiple paragraphs of explanatory text grounded according to the grounding rules below. Be comprehensive.
+- TITLE: Chapter title - the title is given in the textbook in the format 'Chapter X: title'
+- SUMMARY: An executive summary that outlines the chapter's structure and the main learning outcomes. Focus on the key concepts as mentioned in the learning outcomes, their relevant examples, formulas, and methodologies, and how these elements are related to each other.
+- IMPACT SEVERITY RATING: a float score between 0-10 that represents the significance of the chapter's content. This score reflects the importance and relevance of the chapter's material in the context of the textbook.
+- RATING EXPLANATION: Give a single sentence explanation of the significance rating.
+- DETAILED FINDINGS: A list of 5-10 key insights about the chapter. Each insight should have a short summary followed by multiple paragraphs of explanatory text grounded according to the grounding rules below. Be comprehensive.
 
 Return output as a well-formed JSON-formatted string with the following format:
     {{
@@ -45,12 +45,11 @@ Points supported by data should list their data references as follows:
 Do not list more than 5 record ids in a single reference. Instead, list the top 5 most relevant record ids and add "+more" to indicate that there are more.
 
 For example:
-"Person X is the owner of Company Y and subject to many allegations of wrongdoing [Data: Reports (1), Entities (5, 7); Relationships (23); Claims (7, 2, 34, 64, 46, +more)]."
+"The concept of Expected Value is fundamental to Chapter 8 and is illustrated through multiple examples [Data: Concepts (5, 7, 12); Examples (3, 8, 15, +more)]."
 
-where 1, 5, 7, 23, 2, 34, 46, and 64 represent the id (not the index) of the relevant data record.
+where 5, 7, 12, 3, 8, and 15 represent the id (not the index) of the relevant data record.
 
 Do not include information where the supporting evidence for it is not provided.
-
 
 # Example Input
 -----------
@@ -59,45 +58,32 @@ Text:
 Entities
 
 id,entity,description
-5,VERDANT OASIS PLAZA,Verdant Oasis Plaza is the location of the Unity March
-6,HARMONY ASSEMBLY,Harmony Assembly is an organization that is holding a march at Verdant Oasis Plaza
-
+1,FOCUS GROUP,Focus groups are used to reduce uncertainty about new products by gathering opinions from a group of people in an interactive environment. Participants are chosen at random and may be observed by marketing professionals.
+2,MARKET RESEARCH,Market Research involves the systematic gathering and analyzing of data about consumers, competitors, and market conditions to inform business decisions. It provides insights into market trends, customer preferences, and competitive dynamics. This process can be based on primary or secondary data and is used to assess the potential success of new product launches. By understanding consumers' needs and preferences, companies can make informed decisions about product development and marketing strategies. Market Research serves as an external source of valuable information that helps businesses navigate the competitive landscape effectively.
+3. SENSITIVITY ANALYSIS, Sensitivity analysis calculates how responsive a decision is to changes in any of the variables used to calculate it.
 Relationships
 
 id,source,target,description
-37,VERDANT OASIS PLAZA,UNITY MARCH,Verdant Oasis Plaza is the location of the Unity March
-38,VERDANT OASIS PLAZA,HARMONY ASSEMBLY,Harmony Assembly is holding a march at Verdant Oasis Plaza
-39,VERDANT OASIS PLAZA,UNITY MARCH,The Unity March is taking place at Verdant Oasis Plaza
-40,VERDANT OASIS PLAZA,TRIBUNE SPOTLIGHT,Tribune Spotlight is reporting on the Unity march taking place at Verdant Oasis Plaza
-41,VERDANT OASIS PLAZA,BAILEY ASADI,Bailey Asadi is speaking at Verdant Oasis Plaza about the march
-43,HARMONY ASSEMBLY,UNITY MARCH,Harmony Assembly is organizing the Unity March
+10,FOCUS GROUP,MARKET RESEARCH,Focus group is related to market research. They are both research techniques to deal with uncertainty.
+11,MARKET RESEARCH,FOCUS GROUP,Market research is related to focus group. They are both research techniques to deal with uncertainty.
 
 Output:
 {{
-    "title": "Verdant Oasis Plaza and Unity March",
-    "summary": "The community revolves around the Verdant Oasis Plaza, which is the location of the Unity March. The plaza has relationships with the Harmony Assembly, Unity March, and Tribune Spotlight, all of which are associated with the march event.",
-    "rating": 5.0,
-    "rating_explanation": "The impact severity rating is moderate due to the potential for unrest or conflict during the Unity March.",
+    "title": "Chapter 8: Risk and Uncertainty",
+    "summary": "Chapter 8 covers the following Learning Outcomes. C. Decision-Making Techniques 6. Dealing with risk and uncertainty in decision making a) Suggest research techniques to reduce uncertainty (e.g. focus groups, market research). b) Explain the use of simulation, expected values and sensitivity. c) Apply expected values and sensitivity to decision-making problems. d) Apply the techniques of maximax, maximin and minimax regret to decision-making problems, including the production of profit tables. e) Interpret a decision tree and use it to solve a multi-stage decision problem. f) Calculate the value of perfect and imperfect information. ",
+    "rating": 7.0,
+    "rating_explanation": "The impact severity rating is high due to the fundamental importance of bookkeeping in accounting.",
     "findings": [
         {{
-            "summary": "Verdant Oasis Plaza as the central location",
-            "explanation": "Verdant Oasis Plaza is the central entity in this community, serving as the location for the Unity March. This plaza is the common link between all other entities, suggesting its significance in the community. The plaza's association with the march could potentially lead to issues such as public disorder or conflict, depending on the nature of the march and the reactions it provokes. [Data: Entities (5), Relationships (37, 38, 39, 40, 41,+more)]"
+            "summary": "Focus groups and market research are important research techniques to reduce uncertainty",
+            "explanation": "Companies often use focus groups and/or market research to deal with uncertainty. Focus groups are used to reduce uncertainty about new products by gathering opinions from a group of people in an interactive environment. Participants are chosen at random and may be observed by marketing professionals. Market Research involves the systematic gathering and analyzing of data about consumers, competitors, and market conditions to inform business decisions. It provides insights into market trends, customer preferences, and competitive dynamics. This process can be based on primary or secondary data and is used to assess the potential success of new product launches. By understanding consumers' needs and preferences, companies can make informed decisions about product development and marketing strategies. Market Research serves as an external source of valuable information that helps businesses navigate the competitive landscape effectively. [Data: Concepts (1, 2); Relationships (10, 11)]"
         }},
         {{
-            "summary": "Harmony Assembly's role in the community",
-            "explanation": "Harmony Assembly is another key entity in this community, being the organizer of the march at Verdant Oasis Plaza. The nature of Harmony Assembly and its march could be a potential source of threat, depending on their objectives and the reactions they provoke. The relationship between Harmony Assembly and the plaza is crucial in understanding the dynamics of this community. [Data: Entities(6), Relationships (38, 43)]"
-        }},
-        {{
-            "summary": "Unity March as a significant event",
-            "explanation": "The Unity March is a significant event taking place at Verdant Oasis Plaza. This event is a key factor in the community's dynamics and could be a potential source of threat, depending on the nature of the march and the reactions it provokes. The relationship between the march and the plaza is crucial in understanding the dynamics of this community. [Data: Relationships (39)]"
-        }},
-        {{
-            "summary": "Role of Tribune Spotlight",
-            "explanation": "Tribune Spotlight is reporting on the Unity March taking place in Verdant Oasis Plaza. This suggests that the event has attracted media attention, which could amplify its impact on the community. The role of Tribune Spotlight could be significant in shaping public perception of the event and the entities involved. [Data: Relationships (40)]"
+            "summary": "Explain and apply sensitivity analysis to decision-making problems",
+            "explanation": "Sensitivity analysis calculates how responsive a decision is to changes in any of the variables used in making that decision. It looks at one variable at a time and measures how much the variable can change by (in percentage terms) before affecting the decision. The smaller the percentage, the more sensitive the decision is to that variable. Sensitivity % = Profit/Variable  [Data: Concepts (3)]"
         }}
     ]
 }}
-
 
 # Real Data
 
@@ -108,11 +94,11 @@ Text:
 
 The report should include the following sections:
 
-- TITLE: community's name that represents its key entities - title should be short but specific. When possible, include representative named entities in the title.
-- SUMMARY: An executive summary of the community's overall structure, how its entities are related to each other, and significant information associated with its entities.
-- IMPACT SEVERITY RATING: a float score between 0-10 that represents the severity of IMPACT posed by entities within the community.  IMPACT is the scored importance of a community.
-- RATING EXPLANATION: Give a single sentence explanation of the IMPACT severity rating.
-- DETAILED FINDINGS: A list of 5-10 key insights about the community. Each insight should have a short summary followed by multiple paragraphs of explanatory text grounded according to the grounding rules below. Be comprehensive.
+- TITLE: Chapter title - the title is given in the textbook in the format 'Chapter X: title'
+- SUMMARY: An executive summary that outlines the chapter's structure and the main learning outcomes. Focus on the key concepts as mentioned in the learning outcomes, their relevant examples, formulas, and methodologies, and how these elements are related to each other.
+- IMPACT SEVERITY RATING: a float score between 0-10 that represents the significance of the chapter's content. This score reflects the importance and relevance of the chapter's material in the context of the textbook.
+- RATING EXPLANATION: Give a single sentence explanation of the significance rating.
+- DETAILED FINDINGS: A list of 5-10 key insights about the chapter. Each insight should have a short summary followed by multiple paragraphs of explanatory text grounded according to the grounding rules below. Be comprehensive.
 
 Return output as a well-formed JSON-formatted string with the following format:
     {{
@@ -141,9 +127,9 @@ Points supported by data should list their data references as follows:
 Do not list more than 5 record ids in a single reference. Instead, list the top 5 most relevant record ids and add "+more" to indicate that there are more.
 
 For example:
-"Person X is the owner of Company Y and subject to many allegations of wrongdoing [Data: Reports (1), Entities (5, 7); Relationships (23); Claims (7, 2, 34, 64, 46, +more)]."
+"The concept of Expected Value is fundamental to Chapter 8 and is illustrated through multiple examples [Data: Concepts (5, 7, 12); Examples (3, 8, 15, +more)]."
 
-where 1, 5, 7, 23, 2, 34, 46, and 64 represent the id (not the index) of the relevant data record.
+where 5, 7, 12, 3, 8, and 15 represent the id (not the index) of the relevant data record.
 
 Do not include information where the supporting evidence for it is not provided.
 

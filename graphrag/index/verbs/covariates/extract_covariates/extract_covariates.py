@@ -34,7 +34,7 @@ class ExtractClaimsStrategyType(str, Enum):
         return f'"{self.value}"'
 
 
-DEFAULT_ENTITY_TYPES = ["organization", "person", "geo", "event"]
+DEFAULT_ENTITY_TYPES = ["concepts", "formulas", "methodologies", "quizzes", "features", "examples", "cases"]
 
 
 @verb(name="extract_covariates")

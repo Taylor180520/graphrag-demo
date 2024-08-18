@@ -52,11 +52,11 @@ CLAIM_DESCRIPTION = (
     "Any claims or facts that could be relevant to information discovery."
 )
 CLAIM_MAX_GLEANINGS = 1
-CLAIM_EXTRACTION_ENABLED = False
+CLAIM_EXTRACTION_ENABLED = True
 MAX_CLUSTER_SIZE = 10
 COMMUNITY_REPORT_MAX_LENGTH = 2000
 COMMUNITY_REPORT_MAX_INPUT_LENGTH = 8000
-ENTITY_EXTRACTION_ENTITY_TYPES = ["organization", "person", "geo", "event"]
+ENTITY_EXTRACTION_ENTITY_TYPES = ["concepts", "formulas", "methodologies", "quizzes", "features", "examples", "cases"]
 ENTITY_EXTRACTION_MAX_GLEANINGS = 1
 INPUT_FILE_TYPE = InputFileType.text
 INPUT_TYPE = InputType.file
@@ -75,9 +75,9 @@ NODE2VEC_ITERATIONS = 3
 NODE2VEC_RANDOM_SEED = 597832
 REPORTING_TYPE = ReportingType.file
 REPORTING_BASE_DIR = "output/${timestamp}/reports"
-SNAPSHOTS_GRAPHML = False
-SNAPSHOTS_RAW_ENTITIES = False
-SNAPSHOTS_TOP_LEVEL_NODES = False
+SNAPSHOTS_GRAPHML = True
+SNAPSHOTS_RAW_ENTITIES = True
+SNAPSHOTS_TOP_LEVEL_NODES = True
 STORAGE_BASE_DIR = "output/${timestamp}/artifacts"
 STORAGE_TYPE = StorageType.file
 SUMMARIZE_DESCRIPTIONS_MAX_LENGTH = 500

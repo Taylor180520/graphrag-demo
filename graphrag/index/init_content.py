@@ -106,7 +106,7 @@ claim_extraction:
   ## llm: override the global llm settings for this task
   ## parallelization: override the global parallelization settings for this task
   ## async_mode: override the global async_mode settings for this task
-  # enabled: true
+  enabled: true
   prompt: "prompts/claim_extraction.txt"
   description: "{defs.CLAIM_DESCRIPTION}"
   max_gleanings: {defs.CLAIM_MAX_GLEANINGS}
@@ -131,7 +131,7 @@ embed_graph:
   # random_seed: {defs.NODE2VEC_RANDOM_SEED}
 
 umap:
-  enabled: false # if true, will generate UMAP embeddings for nodes
+  enabled: False # if true, will generate UMAP embeddings for nodes
 
 snapshots:
   graphml: true
